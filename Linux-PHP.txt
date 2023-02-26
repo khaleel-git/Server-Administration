@@ -1,0 +1,24 @@
+Run the following command to display a list of all running PHP processes:
+    ps aux | grep php
+
+
+Command to get all PIDs of PHP jobs
+    Command: pgrep php
+    11181
+    160266
+    160850
+    160864
+    160870
+    160890
+    161198
+    161200
+    161440
+    161443
+    161453
+
+Command to get the memory Size of any PID
+    Command: ps -o rss= -p 160299
+    The command ps -o rss= -p 160299 will output the resident set size (RSS) of the process with PID 160299, which is 
+    the amount of memory that the process is currently using, in kilobytes (KB).
+    In this case, the output is 114568 KB, which means that the process is currently using 
+    approximately 114 megabytes (MB) of memory.
