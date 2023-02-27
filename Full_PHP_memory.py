@@ -1,4 +1,5 @@
 import psutil
+import time
 
 # Get a list of all running processes
 processes = psutil.process_iter()
@@ -19,20 +20,36 @@ for process in processes:
         # If there is an error getting the process information, skip it
         continue
 
-# Initialize a variable to store the total memory usage in bytes
-total_memory_usage = 0
 
+with open("Full_PHP_memory.csv", "w") as fd:
+    fd.write("Size")
+    fd.write((","))
+    fd.write("MB")
+    fd.write("\n")
 # Loop through each PHP PID and get the memory usage in bytes
-for pid in php_pids:
-    try:
-        # Get the process memory information as a named tuple
-        memory_info = psutil.Process(pid).memory_info()
+while True:
+    # Initialize a variable to store the total memory usage in bytes
+    total_memory_usage = 0
+    for pid in php_pids:
+        try:
+            # Get the process memory information as a named tuple
+            memory_info = psutil.Process(pid).memory_info()
 
-        # Add the memory usage to the total
-        total_memory_usage += memory_info.rss
-    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-        # If there is an error getting the process memory information, skip it
-        continue
+            # Add the memory usage to the total
+            total_memory_usage += memory_info.rss
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            # If there is an error getting the process memory information, skip it
+            continue
 
-# Convert the total memory usage to MB and print it
-print(f"Total PHP memory usage: {total_memory_usage / (1024 * 1024):.2f} MB")
+    # Convert the total memory usage to MB and print it on the same line
+    print(f"\rTotal PHP memory usage: {total_memory_usage / (1024 * 1024):.2f} MB", end="")
+    currentMemoryMB = round(total_memory_usage / (1024 * 1024),2)
+    
+    with open("Full_PHP_memory.csv", "a") as fd:
+        fd.write(str(currentMemoryMB))
+        fd.write((","))
+        fd.write("MB")
+        fd.write("\n")
+    
+    # Wait for 3 seconds before checking the memory usage again
+    time.sleep(300)
