@@ -1,5 +1,5 @@
 # Server-Administration (Linux & Windows) 
-## New Commands/Code/Concepts/Ideas for Future Reference
+## New Commands/Code/Concepts/Ideas
 
 ## Python3:
 ### (1) Get a Server Hostname: 
